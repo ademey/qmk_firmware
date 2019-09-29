@@ -165,7 +165,7 @@ uint32_t layer_state_set_user(uint32_t state) {
             break;
         case _MAC:
             rgblight_mode(1);
-            rgblight_sethsv(HSV_MAGENTA);
+            rgblight_sethsv(HSV_CYAN);
             // HSV_TURQUOISE
             // HSV_TEAL
             // HSV_CYAN
