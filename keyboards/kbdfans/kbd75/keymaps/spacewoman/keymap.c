@@ -35,7 +35,7 @@ enum custom_keycodes {
     MACRO_2,
     MACRO_3,
     MACRO_4,
-    MACR0_5
+    MACRO_5
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -109,78 +109,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX,  XXXXXXX,  XXXXXXX,                                XXXXXXX,                                XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,  XXXXXXX
   )
 };
-
-void led_set_user(uint8_t usb_led) {
-    if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
-        DDRB |= (1 << 2); PORTB &= ~(1 << 2);
-    } else {
-        DDRB &= ~(1 << 2); PORTB &= ~(1 << 2);
-    }
-}
-
-const uint8_t RGBLED_RAINBOW_SWIRL_INTERVALS[] PROGMEM = {100, 50, 10}; // Set the last one to 10ms for some speedy swirls
-
-// Modes
-// 1 Solid
-// 2-5 Pulse
-// 6-8 Color Cycle
-// 9-  Rainbow
-
-uint8_t prev = _BL;
-uint32_t mode = 1;
-uint16_t hue = 255;
-uint16_t sat = 255;
-uint16_t val = 255;
-
-void get_hsv(void) {
-    hue = rgblight_get_hue();
-    sat = rgblight_get_sat();
-    val = rgblight_get_val();
-    mode = rgblight_get_mode();
-}
-
-void reset_hsv(void) {
-    rgblight_sethsv(hue, sat, val);
-}
-
-void matrix_init_user() {
-    rgblight_enable();
-    rgblight_mode(mode);
-    reset_hsv();
-    rgblight_setrgb(255, 0, 0);
-}
-
-void matrix_scan_user() {
-    if (prev == _LT) {
-      get_hsv();
-    }
-}
-
-uint32_t layer_state_set_user(uint32_t state) {
-    uint8_t layer = biton32(state);
-    switch (layer) {
-        case _BL:
-            rgblight_mode(1);
-            rgblight_sethsv(HSV_SPRINGGREEN);
-            break;
-        case _MAC:
-            rgblight_mode(1);
-            rgblight_sethsv(HSV_CYAN);
-            // HSV_TURQUOISE
-            // HSV_TEAL
-            // HSV_CYAN
-            // rgblight_setrgb(222, 3, 255);
-            break;
-        case _GAME:
-            rgblight_mode(1);
-            rgblight_sethsv(HSV_GOLDENROD);
-            break;            
-        case _FN:
-            rgblight_mode(1);
-            rgblight_sethsv(HSV_PINK);
-            break;
-    }
-    prev = layer;
-    return state;
-}
 
