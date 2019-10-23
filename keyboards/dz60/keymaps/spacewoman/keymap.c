@@ -89,10 +89,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_FN] = LAYOUT(
         KC_GRV , KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 , XXXXXXX, KC_DEL ,
-        _______,          KC_MUTE, KC_VOLD, KC_VOLU, _______, _______, _______, _______, KC_UP,   _______, _______, _______, _______, _______,
-        KC_CAPS,          KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-        _______,          _______, _______, _______,          _______,          _______, _______, _______, _______, _______,          _______),
+        XXXXXXX,          KC_MUTE, KC_VOLD, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_UP,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_CAPS,          KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX,          XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
+        XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX),
 
    /* Keymap : Third Layer (RGB / Reset)
    * ,-----------------------------------------------------------.
@@ -109,11 +109,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
 
     [_CL] = LAYOUT(
-        KC_GRV , MACRO_1, MACRO_2, MACRO_3, MACRO_4, MACRO_5, _______, _______, _______, _______, _______, _______, KC_PSCR, XXXXXXX, KC_SLEP,
-        _______,          RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, _______, _______, RESET  ,
-        _______,          RGB_STA, RGB_BRE, RGB_RAI, RGB_SWI, RGB_SNA, RGB_KNI, RGB_GRA, _______, _______, _______, _______,          TO(_GAME),
-        _______, _______, BL_DEC , BL_TOGG, BL_INC , BL_STEP, _______, _______, _______, _______, _______, _______, TO(_WIN),         _______,
-        _______,          _______, _______, _______,          _______,          _______, _______, _______, _______, _______,          TO(_BL))
+        KC_GRV , MACRO_1, MACRO_2, MACRO_3, MACRO_4,  MACRO_5, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, KC_SLEP,
+        XXXXXXX,          RGB_TOG, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, XXXXXXX, XXXXXXX, XXXXXXX, RESET  ,
+        XXXXXXX,          RGB_STA, RGB_BRE, RGB_RAI,  RGB_SWI, RGB_SNA, RGB_KNI, RGB_GRA, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          TO(_GAME),
+        XXXXXXX, XXXXXXX, BL_DEC , BL_TOGG, BL_INC ,  BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TO(_WIN),         XXXXXXX,
+        XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          TO(_BL))
 
 };
 
