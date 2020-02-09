@@ -1,5 +1,23 @@
 #include QMK_KEYBOARD_H
 
+#if (__has_include("secrets.h"))
+#include "secrets.h"
+#else
+#define SECRET_1 "secret 1"
+#define SECRET_2 "secret 2"
+#define SECRET_3 "secret 3"
+#define SECRET_4 "secret 4"
+#define SECRET_5 "secret 5"
+#endif
+
+enum custom_keycodes {
+    MACRO_1 = SAFE_RANGE,
+    MACRO_2,
+    MACRO_3,
+    MACRO_4,
+    MACRO_5
+};
+
 enum layers {
 	_QWERTY,
 	_RAISE,
@@ -26,15 +44,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		         KC_LGUI, KC_RALT,          LOWERSP, LOWERSP, RAISESP,          NAV,     FN), 
 
 	[_RAISE] = LAYOUT(
-		KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______, 
-		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, 
+		KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL , 
+		_______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  KC_LBRC,          KC_RBRC,
+		_______, _______, _______, _______, _______, _______, _______, _______, KC_SCLN, KC_QUOT,          _______, 
 		         _______, _______,          _______, _______, _______,          _______, _______),
 
 	[_LOWER] = LAYOUT(
 		KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, 
-		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, 
-		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, 
+		_______, _______, _______, _______, _______, _______, _______, KC_UNDS, KC_PLUS, KC_LCBR,          KC_RCBR, 
+		_______, _______, _______, _______, _______, _______, _______, _______, KC_BSLS, KC_PIPE,          _______, 
 		         _______, _______,          _______, _______, _______,          _______, _______),
 	
 	[_NAV] = LAYOUT(
@@ -44,9 +62,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		         _______, _______,          _______, _______, _______,          _______, _______),
 	
 	[_FN] = LAYOUT(
-		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
-		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, 
+		_______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,    KC_F10, _______, 
+		_______, MACRO_1, MACRO_2, MACRO_3, MACRO_4, MACRO_5, _______, _______, _______, _______,          _______, 
 		_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, 
 		         RESET,   _______,          _______, _______, _______,          _______, _______)
 };
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        switch(keycode) {
+            case MACRO_1:
+                SEND_STRING(SECRET_1);
+                return false;
+            case MACRO_2:
+                SEND_STRING(SECRET_2);
+                return false;
+            case MACRO_3:
+                SEND_STRING(SECRET_3);
+                return false;
+            case MACRO_4:
+                SEND_STRING(SECRET_4);
+                return false;
+            case MACRO_5:
+                SEND_STRING(SECRET_5);
+                return false;
+        }
+    }
+
+   return true;
+};
