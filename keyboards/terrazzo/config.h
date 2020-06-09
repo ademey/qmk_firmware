@@ -32,25 +32,21 @@
 /* number of backlight levels */
 
 
-#define BACKLIGHT_LEVELS 8
+#define BACKLIGHT_LEVELS 20
 #define LED_MATRIX_MAXIMUM_BRIGHTNESS 20
 
 /* Set 0 if debouncing isn't needed */
-#define DEBOUNCING_DELAY 5
+// #define DEBOUNCING_DELAY 5
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-#define LOCKING_SUPPORT_ENABLE
+// #define LOCKING_SUPPORT_ENABLE
 
 /* Locking resynchronize hack */
-#define LOCKING_RESYNC_ENABLE
+// #define LOCKING_RESYNC_ENABLE
 
-/* key combination for command */
-#define IS_COMMAND() ( \
-    keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
-)
 
 /* prevent stuck modifiers */
-#define PREVENT_STUCK_MODIFIERS
+// #define PREVENT_STUCK_MODIFIERS
 
 
 #endif
@@ -62,10 +58,13 @@
 // 0b1110111 AD <-> VCC
 // 0b1110101 AD <-> SCL
 // 0b1110110 AD <-> SDA
-#define LED_DRIVER_ADDR_1 0b1110100 
+#ifdef LED_MATRIX_ENABLE
+#define LED_DRIVER_ADDR_1 0x74 
 // (0x74 << 1)
 
 
 #define LED_DRIVER_COUNT 1
 #define LED_DRIVER_LED_COUNT 105
-
+#define LED_MATRIX_ROWS 15
+#define LED_MATRIX_COLS 7
+#endif

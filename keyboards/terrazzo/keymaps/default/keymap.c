@@ -2,8 +2,6 @@
 #include "terrazzo.h"
 #include QMK_KEYBOARD_H
 
-#include "charlie.h"
-
 
 #define _______ KC_TRNS
 
@@ -50,30 +48,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       switch(keycode) {
           case INC:
               dprint("LED INC\n");
-              led_matrix_set_index_value(0, 5);
+              terrazzo_step_mode();
               return true;
           case DEC:
               dprint("LED DEC\n");
-              led_matrix_set_index_value(1, 10);
+              terrazzo_step_mode_reverse();
               // led_matrix_disable();
               // led_matrix_init();
               return true;
           case MODE:
               dprint("LED MODE\n");
-              led_matrix_set_index_value_all(4);
+              // led_matrix_decrease_val();
               return true;
       }
   }
 	return true;
 }
 
-void led_matrix_indicators_user() {
-  // led_matrix_set_index_value_all(5);
-  charlie_render();
-}
-
-void led_matrix_indicators_kb(void) {
-}
 
 void keyboard_post_init_user(void) {
   debug_enable=true;
@@ -84,7 +75,7 @@ void keyboard_post_init_user(void) {
 
 void encoder_update_user(uint8_t index, bool clockwise) {
   // printf("ENCODER %n \n", clockwise);
-  charlie_scroll_pixel(clockwise);
+  terrazzo_scroll_pixel(clockwise);
   if (clockwise) {
       tap_code(KC_PGDN);
   } else {

@@ -18,6 +18,30 @@
 	{ K70, K71, K72, K73, K74, K75 }  \
 }
 
+enum terrazzo_matrix_effects {
+	TERRAZZO_NONE = 0,
+    TERRAZZO_SWIRL,
+    TERRAZZO_SWIRL2,
+
+    // --------------------------------------
+    // -----Begin led effect enum macros-----
+    // #define LED_MATRIX_EFFECT(name, ...) LED_MATRIX_##name,
+    // #include "led_matrix_animations/led_matrix_effects.inc"
+    // #undef LED_MATRIX_EFFECT
+    // --------------------------------------
+    // -----End led effect enum macros-------
+    // All new effects go above this line
+	TERRAZZO_MATRIX_EFFECT_MAX
+};
+
+void terrazzo_debug(void);
+void terrazzo_render(void);
+void terrazzo_scroll_pixel(bool clockwise);
+void terrazzo_step_mode(void);
+void terrazzo_step_mode_reverse(void);
+void terrazzo_swirl(void);
+void terrazzo_swirl2(void);
+
 // void charlie_debug(void);
 
 

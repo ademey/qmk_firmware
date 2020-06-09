@@ -45,16 +45,17 @@ OPT_DEFS += -DBOOTLOADER_SIZE=4096
 #   comment out to disable the options.
 #
 BOOTMAGIC_ENABLE ?= yes	# Virtual DIP switch configuration(+1000)
-MOUSEKEY_ENABLE ?= yes	# Mouse keys(+4700)
+MOUSEKEY_ENABLE ?= no	# Mouse keys(+4700)
 EXTRAKEY_ENABLE ?= yes	# Audio control and System control(+450)
 CONSOLE_ENABLE = yes	# Console for debug(+400)
 COMMAND_ENABLE ?= no    # Commands for debug and configuration
-SLEEP_LED_ENABLE ?= no  # Breathing sleep LED during USB suspend
+SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE ?= yes		# USB Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
+AUDIO_ENABLE = no
+RGBLIGHT_ENABLE = no
 BACKLIGHT_ENABLE = yes  # Enable keyboard backlight functionality
-AUDIO_ENABLE ?= no
-RGBLIGHT_ENABLE ?= no
 LED_MATRIX_ENABLE = IS31FL3731
-ENCODER_ENABLE = yes
+ENCODER_ENABLE ?= yes
 
-SRC += charlie.c
+# QUANTUM_LIB_SRC += lib/charlie_matrix.c
+# SRC += charlie.c

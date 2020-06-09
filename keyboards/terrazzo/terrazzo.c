@@ -2,6 +2,10 @@
 
 #ifdef LED_MATRIX_ENABLE
     #include "is31fl3731-simple.h"
+    #include <math.h>
+    #include <print.h>
+    #include "quantum.h"
+
 
 const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 /* Refer to IS31 manual for these locations
@@ -27,29 +31,100 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
     {0, C2_15},{0, C2_14},{0, C2_13},{0, C2_12},{0, C2_11},{0, C2_10},{0, C2_9}
 };
 
-/*
-void setPixel(int x, int y, int value) {
-  const int width = 7;
+
+uint8_t C_LED_INDEX = 0;
+uint8_t terrazzo_effect = TERRAZZO_SWIRL;
+
+void terrazzo_set_pixel(uint8_t x, uint8_t y, uint8_t value) {
+  const int width = LED_MATRIX_COLS;
   led_matrix_set_index_value(y * width + x, value);
 }
 
-uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 18, 20, 30, 40,  50, 55, 60};
+void terrazzo_debug(void) {
+}
 
-void led_matrix_indicators_kb(void) {
+void terrazzo_scroll_pixel(bool clockwise) {
+    
+    uint8_t speed = 3;
+    
+    // dprintf("led_matrix_config.val = %d\n", led_matrix_config.val);
 
-    led_matrix_set_index_value_all(1);
-
-    for(int y = 0; y < 15; y++) {
-        for(int x  = 0; x < 7; x++){
-          setPixel(x, y, sweep[y]);
-        }
+    if (clockwise) {
+        C_LED_INDEX = C_LED_INDEX + speed;
+    } else {
+        C_LED_INDEX = C_LED_INDEX - speed;
+    } 
+    
+    if (C_LED_INDEX >= LED_DRIVER_LED_COUNT) {
+        C_LED_INDEX = 0;
+    } else if (C_LED_INDEX <= 0 ) {
+        C_LED_INDEX = LED_DRIVER_LED_COUNT - 1;
     }
 }
 
 
-void charlie_debug(void) {
-    led_matrix_set_index_value_all(4);
+void terrazzo_step_mode(void) {
+    terrazzo_effect++;
+    if (terrazzo_effect >= TERRAZZO_MATRIX_EFFECT_MAX) {
+        terrazzo_effect = 1;
+    }
 }
-*/
+
+void terrazzo_step_mode_reverse(void) {
+    terrazzo_effect--;
+    if (terrazzo_effect < 1) {
+        terrazzo_effect = TERRAZZO_MATRIX_EFFECT_MAX - 1;
+    }
+}
+
+void terrazzo_render(void) {
+    // led_matrix_set_index_value(C_LED_INDEX, 5);
+    switch(terrazzo_effect) {
+        case TERRAZZO_NONE:
+            led_matrix_set_index_value_all(0);
+            break;
+        case TERRAZZO_SWIRL:
+            terrazzo_swirl();
+            break;
+        case TERRAZZO_SWIRL2:
+            terrazzo_swirl2();
+            break;
+    }
+}
+
+void terrazzo_swirl() {
+    // 24 uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60, 60, 40, 30, 20, 15, 10, 8, 6, 4, 3, 2, 1};
+    uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60};
+    // 7 uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10};
+    uint8_t levels = 12;
+    float soften = 5;
+
+    for (int y = 0; y < LED_MATRIX_ROWS; y++) {
+        for (int x  = 0; x < LED_MATRIX_COLS; x++) {
+            uint8_t target = (x+y+C_LED_INDEX)%levels;
+            terrazzo_set_pixel(x, y, floor(sweep[target] / soften));
+        }
+    }
+}
+
+void terrazzo_swirl2() {
+    uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60, 60, 40, 30, 20, 15, 10, 8, 6, 4, 3, 2, 1};
+    // uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60};
+    // 7 uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10};
+    uint8_t levels = 24;
+    float soften = 5;
+
+    for (int y = 0; y < LED_MATRIX_ROWS; y++) {
+        for (int x  = 0; x < LED_MATRIX_COLS; x++) {
+            uint8_t target = (x+y+C_LED_INDEX)%levels;
+            terrazzo_set_pixel(x, y, floor(sweep[target] / soften));
+        }
+    }
+}
+
+void led_matrix_indicators_kb(void) {
+  terrazzo_render();
+}
+
 
 #endif
