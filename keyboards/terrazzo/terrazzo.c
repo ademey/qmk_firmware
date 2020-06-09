@@ -31,6 +31,13 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
     {0, C2_15},{0, C2_14},{0, C2_13},{0, C2_12},{0, C2_11},{0, C2_10},{0, C2_9}
 };
 
+#define TERRAZZO_EFFECT(name)
+#define TERRAZZO_EFFECT_IMPLS
+
+#include "terrazzo_effects/terrazzo_effects.inc"
+
+#undef TERRAZZO_EFFECT_IMPLS
+#undef TERRAZZO_EFFECT
 
 uint8_t C_LED_INDEX = 0;
 uint8_t terrazzo_effect = TERRAZZO_SWIRL;
@@ -65,7 +72,7 @@ void terrazzo_scroll_pixel(bool clockwise) {
 
 void terrazzo_step_mode(void) {
     terrazzo_effect++;
-    if (terrazzo_effect >= TERRAZZO_MATRIX_EFFECT_MAX) {
+    if (terrazzo_effect >= TERRAZZO_EFFECT_MAX) {
         terrazzo_effect = 1;
     }
 }
@@ -73,7 +80,7 @@ void terrazzo_step_mode(void) {
 void terrazzo_step_mode_reverse(void) {
     terrazzo_effect--;
     if (terrazzo_effect < 1) {
-        terrazzo_effect = TERRAZZO_MATRIX_EFFECT_MAX - 1;
+        terrazzo_effect = TERRAZZO_EFFECT_MAX - 1;
     }
 }
 
@@ -89,6 +96,17 @@ void terrazzo_render(void) {
         case TERRAZZO_SWIRL2:
             terrazzo_swirl2();
             break;
+
+        // ---------------------------------------------
+        // -----Begin rgb effect switch case macros-----
+        #define TERRAZZO_EFFECT(name, ...)          \
+            case TERRAZZO_EFFECT_##name:                   \
+                name(C_LED_INDEX); \
+                break;
+        #include "terrazzo_effects/terrazzo_effects.inc"
+        #undef TERRAZZO_EFFECT
+        // -----End rgb effect switch case macros-------
+        // ---------------------------------------------
     }
 }
 

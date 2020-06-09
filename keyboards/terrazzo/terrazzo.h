@@ -25,13 +25,13 @@ enum terrazzo_matrix_effects {
 
     // --------------------------------------
     // -----Begin led effect enum macros-----
-    // #define LED_MATRIX_EFFECT(name, ...) LED_MATRIX_##name,
-    // #include "led_matrix_animations/led_matrix_effects.inc"
-    // #undef LED_MATRIX_EFFECT
+    #define TERRAZZO_EFFECT(name, ...) TERRAZZO_EFFECT_##name,
+    #include "terrazzo_effects/terrazzo_effects.inc"
+    #undef TERRAZZO_EFFECT
     // --------------------------------------
     // -----End led effect enum macros-------
     // All new effects go above this line
-	TERRAZZO_MATRIX_EFFECT_MAX
+	TERRAZZO_EFFECT_MAX
 };
 
 void terrazzo_debug(void);
