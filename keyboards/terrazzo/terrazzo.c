@@ -23,7 +23,7 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
     {0, C8_2}, {0, C8_3}, {0, C8_4}, {0, C8_5}, {0, C8_6}, {0, C8_7}, {0, C8_8},
     //
     {0, C8_15},{0, C8_14},{0, C8_13},{0, C8_12},{0, C8_11},{0, C8_10},{0, C8_9},
-    {0, C7_15},{0, C7_13},{0, C7_14},{0, C7_12},{0, C7_11},{0, C7_10},{0, C7_9},
+    {0, C7_15},{0, C7_14},{0, C7_13},{0, C7_12},{0, C7_11},{0, C7_10},{0, C7_9},
     {0, C6_15},{0, C6_14},{0, C6_13},{0, C6_12},{0, C6_11},{0, C6_10},{0, C6_9},
     {0, C5_15},{0, C5_14},{0, C5_13},{0, C5_12},{0, C5_11},{0, C5_10},{0, C5_9},
     {0, C4_15},{0, C4_14},{0, C4_13},{0, C4_12},{0, C4_11},{0, C4_10},{0, C4_9},
@@ -40,11 +40,13 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 #undef TERRAZZO_EFFECT
 
 uint8_t C_LED_INDEX = 0;
-uint8_t terrazzo_effect = TERRAZZO_SWIRL;
+uint8_t terrazzo_effect = 1;
 
 void terrazzo_set_pixel(uint8_t x, uint8_t y, uint8_t value) {
-  const int width = LED_MATRIX_COLS;
-  led_matrix_set_index_value(y * width + x, value);
+  uint8_t target = y * LED_MATRIX_COLS + x;
+  if (target < LED_DRIVER_LED_COUNT && target >= 0) {
+    led_matrix_set_index_value(y * LED_MATRIX_COLS + x, value);
+  }
 }
 
 void terrazzo_draw_at(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t image[]) {
@@ -98,9 +100,6 @@ void terrazzo_render(void) {
     switch(terrazzo_effect) {
         case TERRAZZO_NONE:
             led_matrix_set_index_value_all(0);
-            break;
-        case TERRAZZO_SWIRL:
-            terrazzo_swirl();
             break;
         // ---------------------------------------------
         // -----Begin rgb effect switch case macros-----

@@ -68,9 +68,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void keyboard_post_init_user(void) {
   debug_enable=true;
-  debug_matrix=true;
+  // debug_matrix=true;
   // debug_keyboard=true;
-  //debug_mouse=true;
+  // debug_mouse=true;
 }
 
 void encoder_update_user(uint8_t index, bool clockwise) {

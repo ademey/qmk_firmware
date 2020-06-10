@@ -32,7 +32,6 @@
 
 enum terrazzo_matrix_effects {
     TERRAZZO_NONE = 0,
-    TERRAZZO_SWIRL,
 // --------------------------------------
 // -----Begin led effect enum macros-----
 #define TERRAZZO_EFFECT(name, ...) TERRAZZO_EFFECT_##name,
