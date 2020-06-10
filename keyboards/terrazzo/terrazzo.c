@@ -47,15 +47,24 @@ void terrazzo_set_pixel(uint8_t x, uint8_t y, uint8_t value) {
   led_matrix_set_index_value(y * width + x, value);
 }
 
+void terrazzo_draw_at(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t image[]) {
+    uint8_t index = 0;
+    for (int v = 0; v < height; v++) {
+        for (int h = 0; h < width; h++) {
+            terrazzo_set_pixel(x + h, y + v, image[index]);
+            index++;
+        }
+    }
+
+}
+
 void terrazzo_debug(void) {
 }
 
 void terrazzo_scroll_pixel(bool clockwise) {
     
-    uint8_t speed = 3;
+    uint8_t speed = 1;
     
-    // dprintf("led_matrix_config.val = %d\n", led_matrix_config.val);
-
     if (clockwise) {
         C_LED_INDEX = C_LED_INDEX + speed;
     } else {
@@ -93,10 +102,6 @@ void terrazzo_render(void) {
         case TERRAZZO_SWIRL:
             terrazzo_swirl();
             break;
-        case TERRAZZO_SWIRL2:
-            terrazzo_swirl2();
-            break;
-
         // ---------------------------------------------
         // -----Begin rgb effect switch case macros-----
         #define TERRAZZO_EFFECT(name, ...)          \
@@ -125,20 +130,6 @@ void terrazzo_swirl() {
     }
 }
 
-void terrazzo_swirl2() {
-    uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60, 60, 40, 30, 20, 15, 10, 8, 6, 4, 3, 2, 1};
-    // uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60};
-    // 7 uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10};
-    uint8_t levels = 24;
-    float soften = 5;
-
-    for (int y = 0; y < LED_MATRIX_ROWS; y++) {
-        for (int x  = 0; x < LED_MATRIX_COLS; x++) {
-            uint8_t target = (x+y+C_LED_INDEX)%levels;
-            terrazzo_set_pixel(x, y, floor(sweep[target] / soften));
-        }
-    }
-}
 
 void led_matrix_indicators_kb(void) {
   terrazzo_render();
