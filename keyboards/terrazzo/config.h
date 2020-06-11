@@ -20,36 +20,16 @@
 #define MATRIX_ROW_PINS { D2, D7, E6, B4, B5, B6, B2, B3 }
 #define MATRIX_COL_PINS { D3, F4, F5, F6, F7, B1 }
 #define UNUSED_PINS
+#define DIODE_DIRECTION COL2ROW
+
 
 #define ENCODERS_PAD_A { C6 }
 #define ENCODERS_PAD_B { D4 }
 #define ENCODER_RESOLUTION 4
 
-
-/* COL2ROW or ROW2COL */
-#define DIODE_DIRECTION COL2ROW
-
-/* number of backlight levels */
-
-
 #define BACKLIGHT_LEVELS 20
 #define LED_MATRIX_MAXIMUM_BRIGHTNESS 20
 
-/* Set 0 if debouncing isn't needed */
-// #define DEBOUNCING_DELAY 5
-
-/* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-// #define LOCKING_SUPPORT_ENABLE
-
-/* Locking resynchronize hack */
-// #define LOCKING_RESYNC_ENABLE
-
-
-/* prevent stuck modifiers */
-// #define PREVENT_STUCK_MODIFIERS
-
-
-#endif
 
 // This is a 7-bit address, that gets left-shifted and bit 0
 // set to 0 for write, 1 for read (as per I2C protocol)
@@ -67,4 +47,5 @@
 #define LED_DRIVER_LED_COUNT 105
 #define LED_MATRIX_ROWS 15
 #define LED_MATRIX_COLS 7
+#endif
 #endif

@@ -134,5 +134,22 @@ void led_matrix_indicators_kb(void) {
   terrazzo_render();
 }
 
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        // #ifdef TYPE_ANIMATE
+        switch(keycode) {
+            case KC_BSPC:
+                terrazzo_scroll_pixel(0);
+                return true;
+            default:
+              terrazzo_scroll_pixel(1);
+              break;
+
+        }
+        //#endif
+    }
+    return process_record_user(keycode, record);
+}
+
 
 #endif

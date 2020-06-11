@@ -53,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_NAV] = LAYOUT(
       _______, _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, _______, _______, _______, KC_UP,   _______,  _______, _______,
 	    _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,          _______,
-	    _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           _______, 
+	    _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, INC,           _______, 
 	    _______,          _______, _______,          _______,          _______,          _______, _______
   ),
 
@@ -73,6 +73,7 @@ void matrix_scan_user(void) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
   if (record->event.pressed) {
       switch(keycode) {
           case INC:

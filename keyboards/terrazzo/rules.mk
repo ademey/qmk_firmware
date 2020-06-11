@@ -57,6 +57,5 @@ BACKLIGHT_ENABLE = yes  # Enable keyboard backlight functionality
 LED_MATRIX_ENABLE = IS31FL3731
 ENCODER_ENABLE ?= yes
 WPM_ENABLE ?= yes
+TYPE_ANIMATE ?= yes
 
-# QUANTUM_LIB_SRC += lib/charlie_matrix.c
-# SRC += charlie.c
