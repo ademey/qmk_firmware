@@ -40,6 +40,7 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 #undef TERRAZZO_EFFECT
 
 uint8_t C_LED_INDEX = 0;
+uint8_t terrazzo_dir = 1;
 uint8_t terrazzo_effect = 1;
 
 void terrazzo_set_pixel(uint8_t x, uint8_t y, uint8_t value) {
@@ -66,6 +67,9 @@ void terrazzo_debug(void) {
 void terrazzo_scroll_pixel(bool clockwise) {
     
     uint8_t speed = 1;
+
+    terrazzo_dir = clockwise;
+
     
     if (clockwise) {
         C_LED_INDEX = C_LED_INDEX + speed;
@@ -105,7 +109,7 @@ void terrazzo_render(void) {
         // -----Begin rgb effect switch case macros-----
         #define TERRAZZO_EFFECT(name, ...)          \
             case TERRAZZO_EFFECT_##name:                   \
-                name(C_LED_INDEX); \
+                name(C_LED_INDEX, terrazzo_dir); \
                 break;
         #include "terrazzo_effects/terrazzo_effects.inc"
         #undef TERRAZZO_EFFECT

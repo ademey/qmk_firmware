@@ -64,7 +64,7 @@ static uint8_t number_3_4[10][12] = {
 }
 };
 
-void WPM_CHART(uint8_t i) {
+void WPM_CHART(uint8_t i, bool dir) {
     led_matrix_set_index_value_all(0);
     uint8_t c_wpm = get_current_wpm();
     uint8_t half_wpm = floor(c_wpm / 2);
