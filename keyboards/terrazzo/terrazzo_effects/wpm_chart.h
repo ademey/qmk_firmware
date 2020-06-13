@@ -67,7 +67,6 @@ static uint8_t number_3_4[10][12] = {
 // uint8_t wpm_levels[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 uint8_t wpm_levels[10] = {20, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 
-
 void WPM_CHART(uint8_t i, bool dir) {
     led_matrix_set_index_value_all(0);
     uint8_t c_wpm = get_current_wpm();
