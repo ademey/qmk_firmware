@@ -54,7 +54,10 @@ void terrazzo_draw_at(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8
     uint8_t index = 0;
     for (int v = 0; v < height; v++) {
         for (int h = 0; h < width; h++) {
-            terrazzo_set_pixel(x + h, y + v, image[index]);
+            uint8_t pixel_value = image[index];
+            if (pixel_value != 0) {
+               terrazzo_set_pixel(x + h, y + v, image[index]);
+            }
             index++;
         }
     }
