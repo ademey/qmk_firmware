@@ -1,5 +1,6 @@
+#ifndef DISABLE_TERRAZZO_EFFECT_WPM_CHART
 TERRAZZO_EFFECT(WPM_CHART)
-#ifdef TERRAZZO_EFFECT_IMPLS
+#   ifdef TERRAZZO_EFFECT_IMPLS
 
 static uint8_t number_3_4[10][12] = {
 {
@@ -91,4 +92,5 @@ void WPM_CHART(uint8_t i, bool dir) {
     terrazzo_draw_at(4, 11, 3, 4, number_3_4[c_wpm % 10]);
 }
 
+#   endif
 #endif

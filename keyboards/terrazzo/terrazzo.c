@@ -6,7 +6,6 @@
     #include <print.h>
     #include "quantum.h"
 
-
 const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 /* Refer to IS31 manual for these locations
  * https://cdn-learn.adafruit.com/downloads/pdf/adafruit-15x7-7x15-charlieplex-led-matrix-charliewing-featherwing.pdf
@@ -39,7 +38,7 @@ const is31_led g_is31_leds[LED_DRIVER_LED_COUNT] = {
 #undef TERRAZZO_EFFECT_IMPLS
 #undef TERRAZZO_EFFECT
 
-uint8_t C_LED_INDEX = 0;
+uint8_t terrazzo_led_index = 0;
 uint8_t terrazzo_dir = 1;
 uint8_t terrazzo_effect = 1;
 
@@ -61,32 +60,24 @@ void terrazzo_draw_at(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8
             index++;
         }
     }
-
-}
-
-void terrazzo_debug(void) {
 }
 
 void terrazzo_scroll_pixel(bool clockwise) {
-    
     uint8_t speed = 1;
-
     terrazzo_dir = clockwise;
 
-    
     if (clockwise) {
-        C_LED_INDEX = C_LED_INDEX + speed;
+        terrazzo_led_index = terrazzo_led_index + speed;
     } else {
-        C_LED_INDEX = C_LED_INDEX - speed;
+        terrazzo_led_index = terrazzo_led_index - speed;
     } 
     
-    if (C_LED_INDEX >= LED_DRIVER_LED_COUNT) {
-        C_LED_INDEX = 0;
-    } else if (C_LED_INDEX <= 0 ) {
-        C_LED_INDEX = LED_DRIVER_LED_COUNT - 1;
+    if (terrazzo_led_index >= LED_DRIVER_LED_COUNT) {
+        terrazzo_led_index = 0;
+    } else if (terrazzo_led_index <= 0 ) {
+        terrazzo_led_index = LED_DRIVER_LED_COUNT - 1;
     }
 }
-
 
 void terrazzo_step_mode(void) {
     terrazzo_effect++;
@@ -103,7 +94,7 @@ void terrazzo_step_mode_reverse(void) {
 }
 
 void terrazzo_render(void) {
-    // led_matrix_set_index_value(C_LED_INDEX, 5);
+    // led_matrix_set_index_value(terrazzo_led_index, 5);
     switch(terrazzo_effect) {
         case TERRAZZO_NONE:
             led_matrix_set_index_value_all(0);
@@ -112,7 +103,7 @@ void terrazzo_render(void) {
         // -----Begin rgb effect switch case macros-----
         #define TERRAZZO_EFFECT(name, ...)          \
             case TERRAZZO_EFFECT_##name:                   \
-                name(C_LED_INDEX, terrazzo_dir); \
+                name(terrazzo_led_index, terrazzo_dir); \
                 break;
         #include "terrazzo_effects/terrazzo_effects.inc"
         #undef TERRAZZO_EFFECT
@@ -120,22 +111,6 @@ void terrazzo_render(void) {
         // ---------------------------------------------
     }
 }
-
-void terrazzo_swirl() {
-    // 24 uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60, 60, 40, 30, 20, 15, 10, 8, 6, 4, 3, 2, 1};
-    uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 60};
-    // 7 uint8_t sweep[] = {1, 2, 3, 4, 6, 8, 10};
-    uint8_t levels = 12;
-    float soften = 5;
-
-    for (int y = 0; y < LED_MATRIX_ROWS; y++) {
-        for (int x  = 0; x < LED_MATRIX_COLS; x++) {
-            uint8_t target = (x+y+C_LED_INDEX)%levels;
-            terrazzo_set_pixel(x, y, floor(sweep[target] / soften));
-        }
-    }
-}
-
 
 void led_matrix_indicators_kb(void) {
   terrazzo_render();

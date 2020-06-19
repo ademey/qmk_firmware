@@ -2,10 +2,6 @@
 #include "terrazzo.h"
 #include QMK_KEYBOARD_H
 
-
-#define _______ KC_TRNS
-
-
 enum custom_keycodes {
   ANI_UP = SAFE_RANGE,
   ANI_DN,
@@ -60,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_FN] = LAYOUT(
 		  _______, _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10, _______,
 		  _______, KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, KC_F11,  KC_F12,          _______, 
-		  _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ANI_DN,  ANI_UP,         CG_TOGG, 
+		  _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         CG_TOGG, 
 		  _______,          RESET,   _______,          _______,          _______,          _______, _______
   )
 };
@@ -70,7 +66,6 @@ void matrix_init_user(void) {
 
 void matrix_scan_user(void) {
 }
-
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -90,14 +85,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-
-void keyboard_post_init_user(void) {
-  debug_enable=true;
-  // debug_matrix=true;
-  // debug_keyboard=true;
-  // debug_mouse=true;
-}
-
 void encoder_update_user(uint8_t index, bool clockwise) {
     terrazzo_scroll_pixel(clockwise);
     switch(biton32(layer_state)) {
@@ -107,6 +94,9 @@ void encoder_update_user(uint8_t index, bool clockwise) {
       default:
         clockwise ? tap_code(KC_PGUP) : tap_code(KC_PGDN);
         break;
-    }
-   
+    }   
+}
+
+void keyboard_post_init_user(void) {
+  // debug_enable=true;
 }

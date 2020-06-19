@@ -1,5 +1,6 @@
+#ifndef DISABLE_TERRAZZO_EFFECT_PAC_DUDE
 TERRAZZO_EFFECT(PAC_DUDE)
-#ifdef TERRAZZO_EFFECT_IMPLS
+#   ifdef TERRAZZO_EFFECT_IMPLS
 
 static uint8_t pac_frames[3][25] = {
 { // up
@@ -25,7 +26,7 @@ static uint8_t pac_frames[3][25] = {
 }
 };
 
-static uint8_t ghost[20] = {
+static uint8_t pac_ghost[20] = {
     0, 4, 4, 4, 0,
     4, 0, 4, 0, 4,
     4, 4, 4, 4, 4,
@@ -41,9 +42,10 @@ void PAC_DUDE(uint8_t i, bool dir) {
         terrazzo_set_pixel(3, 3 + i % 3, 5);
     } else {
         terrazzo_draw_at(1, 4, 5, 5, pac_frames[1 + i % 2]);
-        terrazzo_draw_at(1, 8 + i % 8, 5, 4, ghost);
+        terrazzo_draw_at(1, 8 + i % 8, 5, 4, pac_ghost);
     }
     
 }
 
+#   endif
 #endif

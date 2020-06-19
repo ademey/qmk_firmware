@@ -1,5 +1,6 @@
+#ifndef DISABLE_TERRAZZO_EFFECT_HEART
 TERRAZZO_EFFECT(HEART)
-#ifdef TERRAZZO_EFFECT_IMPLS
+#   ifdef TERRAZZO_EFFECT_IMPLS
 
 static uint8_t heart_frames[4][105] = {
 {
@@ -78,4 +79,5 @@ void HEART(uint8_t i, bool dir) {
     terrazzo_draw_at(0, 0, 7, 15, heart_frames[i % 4]);
 }
 
+#   endif
 #endif

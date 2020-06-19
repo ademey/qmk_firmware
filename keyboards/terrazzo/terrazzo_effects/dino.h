@@ -1,5 +1,6 @@
+#ifndef DISABLE_TERRAZZO_EFFECT_DINO
 TERRAZZO_EFFECT(DINO)
-#ifdef TERRAZZO_EFFECT_IMPLS
+#   ifdef TERRAZZO_EFFECT_IMPLS
 
 static uint8_t dino_frames[2][56] = {
 {
@@ -141,4 +142,5 @@ void DINO(uint8_t i, bool dir) {
     terrazzo_draw_at(0, 0, 7, 6, dino_bg[i % 10]);
 }
 
+#   endif
 #endif

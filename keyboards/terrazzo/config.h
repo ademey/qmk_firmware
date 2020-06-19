@@ -5,12 +5,12 @@
 
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6060
+#define VENDOR_ID       0x4d4d // MM
+#define PRODUCT_ID      0x545a // TZ
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    msmustard
+#define MANUFACTURER    MsMustard
 #define PRODUCT         Terrazzo
-#define DESCRIPTION     40
+#define DESCRIPTION     40% Keyboard with LED Matrix
 
 /* key matrix size */
 #define MATRIX_ROWS 8 
@@ -28,24 +28,25 @@
 #define ENCODER_RESOLUTION 4
 
 #define BACKLIGHT_LEVELS 20
-#define LED_MATRIX_MAXIMUM_BRIGHTNESS 20
 
-
-// This is a 7-bit address, that gets left-shifted and bit 0
-// set to 0 for write, 1 for read (as per I2C protocol)
-// The address will vary depending on your wiring:
-// 0b1110100 AD <-> GND
-// 0b1110111 AD <-> VCC
-// 0b1110101 AD <-> SCL
-// 0b1110110 AD <-> SDA
 #ifdef LED_MATRIX_ENABLE
 #define LED_DRIVER_ADDR_1 0x74 
-// (0x74 << 1)
 
 
 #define LED_DRIVER_COUNT 1
 #define LED_DRIVER_LED_COUNT 105
 #define LED_MATRIX_ROWS 15
 #define LED_MATRIX_COLS 7
+#define LED_MATRIX_MAXIMUM_BRIGHTNESS 20
+
 #endif
 #endif
+
+
+// #define DISABLE_TERRAZZO_EFFECT_STRIPES
+// #define DISABLE_TERRAZZO_EFFECT_DINO
+// #define DISABLE_TERRAZZO_EFFECT_OUTRUN
+#define DISABLE_TERRAZZO_EFFECT_PAC_DUDE
+#define DISABLE_TERRAZZO_EFFECT_HEART
+// #define DISABLE_TERRAZZO_EFFECT_WPM_CHART
+#define DISABLE_TERRAZZO_EFFECT_DOT
