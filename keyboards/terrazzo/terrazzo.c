@@ -45,9 +45,11 @@ uint8_t terrazzo_effect = 1;
 void terrazzo_set_pixel(uint8_t x, uint8_t y, uint8_t value) {
   uint8_t target = y * LED_MATRIX_COLS + x;
   if (target < LED_DRIVER_LED_COUNT && target >= 0) {
+    // TODO: Wrapper function with max value check
     led_matrix_set_index_value(y * LED_MATRIX_COLS + x, value);
   }
 }
+
 
 void terrazzo_draw_at(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t image[]) {
     uint8_t index = 0;
@@ -101,8 +103,8 @@ void terrazzo_render(void) {
             break;
         // ---------------------------------------------
         // -----Begin rgb effect switch case macros-----
-        #define TERRAZZO_EFFECT(name, ...)          \
-            case TERRAZZO_EFFECT_##name:                   \
+        #define TERRAZZO_EFFECT(name, ...)              \
+            case TERRAZZO_EFFECT_##name:                \
                 name(terrazzo_led_index, terrazzo_dir); \
                 break;
         #include "terrazzo_effects/terrazzo_effects.inc"

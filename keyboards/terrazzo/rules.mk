@@ -59,4 +59,4 @@ ENCODER_ENABLE ?= yes
 WPM_ENABLE ?= yes
 TYPE_ANIMATE ?= yes
 
-LAYOUTS = ortho ortho_2u
+LAYOUTS = ortho ortho_2u ortho_all
