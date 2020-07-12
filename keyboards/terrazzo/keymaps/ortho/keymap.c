@@ -1,3 +1,6 @@
+// Ortho layout with 2x 2u spacebars
+// Default ortho layout.
+// make terrazzo:othro
 #include <print.h>
 #include "terrazzo.h"
 #include QMK_KEYBOARD_H
