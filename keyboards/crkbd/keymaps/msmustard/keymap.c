@@ -26,13 +26,13 @@ enum layers {
     _FN
 };
 
-#define LOWERSP LT(2, KC_SPC)
-#define RAISESP LT(1, KC_SPC)
+#define LOWERSP LT(_LOWER, KC_SPC)
+#define RAISESP LT(_RAISE, KC_SPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+      KC_ESC,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_ENT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -138,11 +138,6 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
   char name = ' ';
     if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) ||
         (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) { keycode = keycode & 0xFF; }
-  switch(keycode) {
-      case 542: keycode = '!'; break;
-      case 543: keycode = '@'; break;
-      case 544: keycode = '#'; break;
-  }
   if (keycode < 60) {
     name = code_to_name[keycode];
   }
