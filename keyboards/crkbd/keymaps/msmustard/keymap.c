@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum layers {
     _QWERTY,
+    _MAC,
     _RAISE,
     _LOWER,
     _NAV,
@@ -39,6 +40,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, KC_LALT, LOWERSP,    RAISESP,MO(_NAV),  MO(_FN)
+                                      //`--------------------------'  `--------------------------'
+
+  ),
+
+  [_MAC] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, _______, _______, _______, _______, _______,                     _______,  _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LGUI, _______, _______, _______, _______, _______,                     _______,  _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, _______, _______, _______, _______, _______,                     _______,  _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_LCTL, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -73,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_LEFT, KC_DOWN,KC_RIGHT, KC_PGDN, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CG_TOGG,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,TG(_MAC),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -83,9 +97,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24, CG_TOGG,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             RESET, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -94,10 +108,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_master) {
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-  }
-  return rotation;
+  // if (!is_master) {
+  //  return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+  //}
+  return OLED_ROTATION_180;
 }
 
 
@@ -106,19 +120,22 @@ void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (get_highest_layer(layer_state)) {
         case _QWERTY:
-            oled_write_ln_P(PSTR("Default"), false);
+            oled_write_ln_P(PSTR("WINDOWS"), false);
+            break;
+        case _MAC:
+            oled_write_ln_P(PSTR("MAC"), false);
             break;
         case _LOWER:
-            oled_write_ln_P(PSTR("Lower"), false);
+            oled_write_ln_P(PSTR("LOWER"), false);
             break;
         case _RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
+            oled_write_ln_P(PSTR("RAISE"), false);
             break;
         case _NAV:
-            oled_write_ln_P(PSTR("Nav"), false);
+            oled_write_ln_P(PSTR("NAV"), false);
             break;
         case _FN:
-            oled_write_ln_P(PSTR("Function"), false);
+            oled_write_ln_P(PSTR("FUNCTION"), false);
             break;
     }
 }
@@ -152,19 +169,14 @@ void oled_render_keylog(void) {
     oled_write(keylog_str, false);
 }
 
-void render_bootmagic_status(bool status) {
+void render_bootmagic_status(void) {
     /* Show Ctrl-Gui Swap options */
-    static const char PROGMEM logo[][2][3] = {
-        {{0x97, 0x98, 0}, {0xb7, 0xb8, 0}},
-        {{0x95, 0x96, 0}, {0xb5, 0xb6, 0}},
-    };
-    if (status) {
-        oled_write_ln_P(logo[0][0], false);
-        oled_write_ln_P(logo[0][1], false);
-    } else {
-        oled_write_ln_P(logo[1][0], false);
-        oled_write_ln_P(logo[1][1], false);
-    }
+    // static const char PROGMEM logo[][2][3] = {
+    //     {{0x97, 0x98, 0}, {0xb7, 0xb8, 0}},
+    //     {{0x95, 0x96, 0}, {0xb5, 0xb6, 0}},
+    // };
+    oled_write_P(PSTR("SWAP"), keymap_config.swap_lctl_lgui);
+    oled_write_ln_P(PSTR(" "), false);
 }
 
 void oled_render_logo(void) {
@@ -179,7 +191,8 @@ void oled_render_logo(void) {
 void oled_task_user(void) {
     if (is_master) {
         oled_render_layer_state();
-        oled_render_keylog();
+        // oled_render_keylog();
+        render_bootmagic_status();
     } else {
         oled_render_logo();
     }
