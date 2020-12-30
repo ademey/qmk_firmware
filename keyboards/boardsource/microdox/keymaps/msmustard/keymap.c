@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------------------------------------------|                    |--------------------------------------------|
           KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_GRV, KC_MINS,  KC_EQL, KC_SCLN,  KC_QUOT,
+       KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_GRV, KC_MINS,  KC_EQL, KC_SCLN,  KC_QUOT,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                      XXXXXXX, KC_BSLS, KC_LBRC, KC_RBRC, _______,
     //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------------------------------------------|                    |--------------------------------------------|
         KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_TILD,  KC_UNDS, KC_PLUS, KC_COLN,  KC_DQT,
+       KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_TILD,  KC_UNDS, KC_PLUS, KC_COLN,  KC_DQT,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                      XXXXXXX, KC_PIPE, KC_LCBR, KC_RCBR, _______,
     //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -91,11 +91,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------------------------------------------|                    |--------------------------------------------|
           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                       KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-       RGB_TOG, RGB_MOD, RGB_HUI, RGB_SAI,  RGB_VAI,                      KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, CG_TOGG,
+       RGB_MOD, RGB_HUI, RGB_SAI,  RGB_VAI, RGB_SPI,                      KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, CG_TOGG,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-       XXXXXXX, RGB_RMOD, RGB_HUD, RGB_SAD, RGB_VAD,                      KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,
+       RGB_RMOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD,                       KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,
     //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-                                     RESET, KC_CAPS, _______,    _______, _______, _______
+                                     RESET, _______, RGB_TOG,    _______, _______, _______
                                 //`--------------------------'  `--------------------------'
   )
 };
@@ -146,7 +146,22 @@ void render_mod_status(uint8_t modifiers) {
     }
     oled_write_P(PSTR("ALT"), (modifiers & MOD_MASK_ALT));
     oled_write_P(PSTR(" "), false);
-    oled_write_ln_P(PSTR("[S]"), keymap_config.swap_lctl_lgui);
+    oled_write_ln_P(PSTR("S"), keymap_config.swap_lctl_lgui);
+}
+
+void render_rgb_status(void) {
+
+  uint8_t speed = rgblight_get_speed();
+  uint8_t mode = rgblight_get_mode();
+  uint8_t hue = rgblight_get_hue();
+  uint8_t sat = rgblight_get_sat();
+  uint8_t val = rgblight_get_val();
+  oled_write_ln_P(PSTR(" M   H   S   V  Sp"), false);
+  
+  static char temp[19] = {0};
+  // snprintf(temp, sizeof(temp) + 1, "M:%3dS:%3d", mode);
+  snprintf(temp, sizeof(temp) + 1, "%3d %3d %3d %3d %3d", mode, hue, sat, val, speed);
+  oled_write(temp, false);
 }
 
 
@@ -155,6 +170,7 @@ void oled_task_user(void) {
   if (is_keyboard_master()) {
     oled_render_layer_state();
     render_mod_status(get_mods());
+    render_rgb_status();
   } else {
     oled_render_logo();
     // oled_scroll_left();
