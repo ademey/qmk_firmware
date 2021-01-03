@@ -18,7 +18,8 @@
 enum layers{
   _BASE,
   _NUM_SYM,
-  _NAV
+  _NAV,
+  _FN
 };
 
 #define KC_NUM_SPC LT(_NUM_SYM, KC_SPC)
@@ -27,12 +28,6 @@ enum layers{
 #define KC_CENT RCTL_T(KC_ENT)
 #define SFTSLSH MT(MOD_RSFT, KC_SLSH)
 
-// #define KC_NAV_ENT LT(_NAV, KC_ENT)
-// #define KC_NAV_ENT LT(_NAV, KC_ENT)
-// #define KC_GA LCTL_T(KC_A)
-// #define KC_AS LGUI_T(KC_S)
-// #define KC_CD LALT_T(KC_D)
-// #define KC_AL RALT_T(KC_L)
 
 enum combo_events {
   COMBO_BSPC,
@@ -53,17 +48,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_NUM_SYM] = LAYOUT_33_big_space(
     KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,    KC_9,    KC_0,
-    XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LSFT,  XXXXXXX,  KC_GRV,  KC_MINS,  KC_EQL,  KC_SCLN,  KC_QUOT,
+    XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LSFT,  XXXXXXX,  KC_GRV,   KC_MINS,  KC_EQL,  KC_SCLN,  KC_QUOT,
     KC_LSFT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_BSLS,  KC_LBRC, KC_RBRC, _______,
                         _______,  _______,   _______ 
   ),
 
   [_NAV] = LAYOUT_33_big_space(
-    KC_MUTE,  KC_VOLD,  KC_VOLU,  XXXXXXX,   XXXXXXX,  XXXXXXX,   KC_HOME,  KC_UP,    KC_END,  KC_PGUP,
-    KC_MPRV,  KC_MPLY,  KC_MNXT,  XXXXXXX,   XXXXXXX,  XXXXXXX,   KC_LEFT,  KC_DOWN,  KC_RGHT, KC_PGDN,
-   OSM(MOD_LSFT),  OSM(MOD_LCTL),  OSM(MOD_LGUI),  OSM(MOD_LALT),   XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX, CG_TOGG,
+    KC_MUTE,  KC_VOLD,  KC_VOLU,  XXXXXXX,   XXXXXXX,  XXXXXXX, KC_HOME,  KC_UP,    KC_END,  KC_PGUP,
+    KC_MPRV,  KC_MPLY,  KC_MNXT,  XXXXXXX,   XXXXXXX,  XXXXXXX, KC_LEFT,  KC_DOWN,  KC_RGHT, KC_PGDN,
+    OSM(MOD_LSFT),  OSM(MOD_LCTL),  OSM(MOD_LGUI),  OSM(MOD_LALT),   XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX, MO(_FN),
                         RESET,    _______,   _______
-  )
+  ),
+
+  [_FN] = LAYOUT_33_big_space(
+    KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,   KC_F9,   KC_F10,
+    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_F20,   KC_F21,   KC_F22,  KC_F23,  XXXXXXX,
+    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, CG_TOGG, _______,
+                        RESET,    _______,   _______ 
+  ),
 };
 
 
