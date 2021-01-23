@@ -15,30 +15,19 @@
  */
 #include QMK_KEYBOARD_H
 
-enum layers {
-    _BASE,
-    _RAISE,
-    _LOWER,
-    _NAV,
-    _FN
+enum layers{
+  _BASE,
+  _NUM_SYM,
+  _NAV,
+  _FN
 };
 
-// Tap for space, hold layer
-#define RAISESP LT(_RAISE, KC_SPC)
-#define LOWERSP LT(_LOWER, KC_SPC)
-// Tap for key, hold shift
+#define KC_NUM_SPC LT(_NUM_SYM, KC_SPC)
 #define KC_SF LSFT_T(KC_F)
 #define KC_SJ RSFT_T(KC_J)
-// Tap for enter, hold control
-#define KC_CENT LCTL_T(KC_ENT)
-// Tap for /, hold shift
+#define KC_CENT RCTL_T(KC_ENT)
 #define SFTSLSH MT(MOD_RSFT, KC_SLSH)
 
-// One shot mods
-#define OSM_SFT OSM(MOD_LSFT)
-#define OSM_CTL OSM(MOD_LCTL)
-#define OSM_GUI OSM(MOD_LGUI)
-#define OSM_ALT OSM(MOD_LALT)
 
 enum combo_events {
   COMBO_BSPC,
@@ -50,39 +39,32 @@ enum combo_events {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
-  [_BASE] = LAYOUT_33_split_space(
-    KC_Q,     KC_W,     KC_E,    KC_R,      KC_T,    KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,
-    KC_A,     KC_S,     KC_D,    KC_SF,     KC_G,    KC_H,     KC_SJ,    KC_K,     KC_L,     KC_CENT,
-    KC_Z,     KC_X,     KC_C,    KC_V,      KC_B,    KC_N,     KC_M,     KC_COMM,  KC_DOT,   SFTSLSH,
-              KC_LGUI,  KC_LCTL, LOWERSP,   RAISESP, MO(_NAV), MO(_FN) 
+  [_BASE] = LAYOUT_33_big_space(
+    KC_Q,     KC_W,     KC_E,    KC_R,       KC_T,    KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,
+    KC_A,     KC_S,     KC_D,    KC_SF,      KC_G,    KC_H,     KC_SJ,    KC_K,     KC_L,     KC_CENT,
+    KC_Z,     KC_X,     KC_C,    KC_V,       KC_B,    KC_N,     KC_M,     KC_COMM,   KC_DOT,  SFTSLSH,
+                        KC_LCTL, KC_NUM_SPC, MO(_NAV)
   ),
 
-  [_RAISE] = LAYOUT_33_split_space(
-    KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,    KC_9,     KC_0,
+  [_NUM_SYM] = LAYOUT_33_big_space(
+    KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,    KC_9,    KC_0,
     XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LSFT,  XXXXXXX,  KC_GRV,   KC_MINS,  KC_EQL,  KC_SCLN,  KC_QUOT,
-    KC_LSFT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_BSLS,  KC_LBRC, KC_RBRC,  _______,
-              _______,  _______,  _______,  _______,  _______,  _______ 
+    KC_LSFT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_BSLS,  KC_LBRC, KC_RBRC, _______,
+                        _______,  _______,   _______ 
   ),
 
-  [_LOWER] = LAYOUT_33_split_space(
-    KC_EXLM,  KC_AT,    KC_HASH,  KC_DLR,   KC_PERC,  KC_CIRC,  KC_AMPR,  KC_ASTR, KC_LPRN,  KC_RPRN,
-    XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LSFT,  XXXXXXX,  KC_TILD,  KC_UNDS,  KC_PLUS, KC_COLN,  KC_DQT,
-    KC_LSFT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_PIPE,  KC_LCBR, KC_RCBR,  _______,
-              _______,  _______,  _______,  _______,  _______,  _______ 
-  ),
-
-  [_NAV] = LAYOUT_33_split_space(
+  [_NAV] = LAYOUT_33_big_space(
     KC_MUTE,  KC_VOLD,  KC_VOLU,  XXXXXXX,   XXXXXXX,  XXXXXXX, KC_HOME,  KC_UP,    KC_END,  KC_PGUP,
     KC_MPRV,  KC_MPLY,  KC_MNXT,  XXXXXXX,   XXXXXXX,  XXXXXXX, KC_LEFT,  KC_DOWN,  KC_RGHT, KC_PGDN,
-    OSM_SFT,  OSM_CTL,  OSM_GUI,  OSM_ALT,   XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX,
-              _______,   _______,   _______,  _______, _______, _______
+    OSM(MOD_LSFT),  OSM(MOD_LCTL),  OSM(MOD_LGUI),  OSM(MOD_LALT),   XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX, MO(_FN),
+                        RESET,    _______,   _______
   ),
 
-  [_FN] = LAYOUT_33_split_space(
+  [_FN] = LAYOUT_33_big_space(
     KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,   KC_F9,   KC_F10,
     XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_F20,   KC_F21,   KC_F22,  KC_F23,  XXXXXXX,
     XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, CG_TOGG, _______,
-              RESET,    _______,  _______,  _______,  _______,  _______ 
+                        RESET,    _______,   _______ 
   ),
 };
 
