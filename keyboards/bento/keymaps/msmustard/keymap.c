@@ -15,10 +15,18 @@
  */
 #include QMK_KEYBOARD_H
 
+#if (__has_include("secrets.h"))
+#include "secrets.h"
+#else
+#define SECRET_1 "secret 1"
+#define SECRET_2 "secret 2"
+#endif
+
 enum layers {
     _BASE,
     _RGB,
     _MON,
+    _MACRO,
     _V1,
     _V2,
     _V3
@@ -36,7 +44,9 @@ enum custom_keycodes {
     MORD_9,
     MORD_10,
     MORD_11,
-    MORD_12
+    MORD_12,
+    MACRO_1,
+    MACRO_2
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -50,7 +60,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_MON] = LAYOUT(
         KC_F21, KC_F23, _______,
-        KC_F20, KC_F22, TO(_V1)
+        KC_F20, KC_F22, TO(_MACRO)
+    ),
+    [_MACRO] = LAYOUT(
+        MACRO_1, MACRO_2, _______,
+        KC_NO, KC_ENT, TO(_V1)
     ),
     [_V1] = LAYOUT(
         MORD_1, MORD_2, _______,
@@ -104,7 +118,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             case MORD_10: SEND_STRING("cc5"); break; // Retreat
             case MORD_11: SEND_STRING("c5"); break; // Intimidate
             case MORD_12: SEND_STRING("ccc3"); break; // Follow
-
+            
+            case MACRO_1: SEND_STRING(SECRET_1); break;
+            case MACRO_2: SEND_STRING(SECRET_2); break;
         }
     }
     return true;
@@ -112,6 +128,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 const rgblight_segment_t PROGMEM mon_color_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {1, 1, HSV_PURPLE}
+);
+
+
+const rgblight_segment_t PROGMEM macro_color_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 1, HSV_RED}
 );
 
 const rgblight_segment_t PROGMEM v1_color_layer[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -128,6 +149,7 @@ const rgblight_segment_t PROGMEM v3_color_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     mon_color_layer,
+    macro_color_layer,
     v1_color_layer,
     v2_color_layer,
     v3_color_layer
@@ -140,9 +162,10 @@ void keyboard_post_init_user(void) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(0, layer_state_cmp(state, _MON));
-    rgblight_set_layer_state(1, layer_state_cmp(state, _V1));
-    rgblight_set_layer_state(2, layer_state_cmp(state, _V2));
-    rgblight_set_layer_state(3, layer_state_cmp(state, _V3));
+    rgblight_set_layer_state(1, layer_state_cmp(state, _MACRO));
+    rgblight_set_layer_state(2, layer_state_cmp(state, _V1));
+    rgblight_set_layer_state(3, layer_state_cmp(state, _V2));
+    rgblight_set_layer_state(4, layer_state_cmp(state, _V3));
     
     return state;
 }
